@@ -139,7 +139,7 @@ export const PROJECTS: Project[] = [
       "ESP32 microcontroller interfacing with PPG pulse sensors, touch capacitive sensors, and GSM/MQTT telemetry modules. Processes real-time bio-signals and triggers instant REST API calls to notify emergency contacts.",
     techStack: ["ESP32", "IoT", "Sensors", "MQTT", "Embedded C++", "Python", "REST API"],
     githubUrl: "https://github.com/Abhi0833-eng",
-    liveDemoUrl: "https://drive.google.com/file/d/15Jai0Fh2TVjJ_sPeLmjcrEhYu6-8I3HT/view?usp=sharing",
+    liveDemoUrl: "https://drive.google.com/file/d/1fTp2wzx0exGoCJawEtZZVnTW29YYP3kH/view?usp=sharing",
     featured: true
   },
   {
@@ -260,8 +260,19 @@ export const ACHIEVEMENTS: Achievement[] = [
     badge: "1st Place Winner",
     description:
       "Built Smart MedTech IoT Gloves with ESP32 microcontrollers, PPG pulse, BP, and sugar sensors providing real-time vital monitoring and automated emergency family SOS alerts.",
-    linkUrl: "https://drive.google.com/file/d/15Jai0Fh2TVjJ_sPeLmjcrEhYu6-8I3HT/view?usp=sharing",
-    certificateUrl: "https://drive.google.com/file/d/15Jai0Fh2TVjJ_sPeLmjcrEhYu6-8I3HT/view?usp=sharing"
+    linkUrl: "https://drive.google.com/file/d/1fTp2wzx0exGoCJawEtZZVnTW29YYP3kH/view?usp=sharing",
+    certificateUrl: "https://drive.google.com/file/d/1fTp2wzx0exGoCJawEtZZVnTW29YYP3kH/view?usp=sharing"
+  },
+  {
+    id: "iit-bhu-wheelchair",
+    title: "1st Place Winner – Iomatic (Tehnex'25)",
+    organization: "IIT BHU",
+    type: "Hardware & IoT",
+    badge: "1st Place Winner",
+    description:
+      "Engineered a Hand-Gesture Controlled Smart Wheelchair using MPU6050 accelerometer gesture sensors translating hand directions into instant directional wheelchair locomotion.",
+    linkUrl: "https://drive.google.com/file/d/1U_yx0kvkbw45UmNXKKMmtb3PQRcZXyzU/view?usp=sharing",
+    certificateUrl: "https://drive.google.com/file/d/1U_yx0kvkbw45UmNXKKMmtb3PQRcZXyzU/view?usp=sharing"
   },
   {
     id: "ieee-paper",

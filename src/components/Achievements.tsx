@@ -1,12 +1,13 @@
 import { ACHIEVEMENTS, CERTIFICATIONS } from "../data/portfolioData";
-import { Trophy, BookOpen, Users, Award, ExternalLink, CheckCircle2 } from "lucide-react";
+import { Trophy, BookOpen, Users, Award, ExternalLink, CheckCircle2, Cpu } from "lucide-react";
 
 export default function Achievements() {
   const typeIcons: Record<string, typeof Trophy> = {
     Publication: BookOpen,
     Hackathon: Trophy,
     Leadership: Users,
-    Academic: Award
+    Academic: Award,
+    "Hardware & IoT": Cpu
   };
 
   return (
@@ -28,6 +29,13 @@ export default function Achievements() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
         {ACHIEVEMENTS.map((item) => {
           const IconComponent = typeIcons[item.type] || Award;
+          const linkLabel =
+            item.type === "Publication"
+              ? "View IEEE Publication"
+              : item.type === "Leadership"
+              ? "View Role / Organization"
+              : "View Verified Award / Certificate";
+
           return (
             <div
               key={item.id}
@@ -61,7 +69,7 @@ export default function Achievements() {
                   rel="noreferrer"
                   className="text-xs font-bold text-blue-600 dark:text-cyan-400 flex items-center gap-1.5 hover:underline pt-3 border-t border-neutral-100 dark:border-neutral-800"
                 >
-                  <span>View Publication Details</span>
+                  <span>{linkLabel}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               )}
