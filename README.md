@@ -4,9 +4,12 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.0-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Vite](https://img.shields.io/badge/Vite-8.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Live Portfolio](https://img.shields.io/badge/Live_Website-abhishekgupta--ai.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://abhishekgupta-ai.vercel.app/)
 [![Status](https://img.shields.io/badge/Status-Active_&_Open_For_Roles-22c55e?style=for-the-badge)](https://linkedin.com/in/abhishek-gupta-102079287/)
 
 Welcome to the official portfolio repository of **Abhishek Gupta** — Final-Year B.Tech CSE Student (CGPA **9.19/10.0**), **AI/ML & Full-Stack Developer**, **IEEE Published Researcher**, and **Lead Organizer of Acehack 4.0 & 5.0**.
+
+🌐 **Live Website**: [https://abhishekgupta-ai.vercel.app](https://abhishekgupta-ai.vercel.app)
 
 ---
 
