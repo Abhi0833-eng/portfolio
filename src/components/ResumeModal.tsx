@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, Download, Printer, FileText, Phone, Mail, Code2, Brain } from "lucide-react";
+import { X, Download, Printer, FileText, Phone, Mail, Code2, Brain, Bot } from "lucide-react";
 import { GithubIcon } from "./SocialIcons";
 import { PERSONAL_INFO, WORK_EXPERIENCES, PROJECTS, ACHIEVEMENTS } from "../data/portfolioData";
 
@@ -8,8 +8,10 @@ interface ResumeModalProps {
   onClose: () => void;
 }
 
+export type ResumeTab = "agentic" | "fullstack" | "aiml";
+
 export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
-  const [activeTab, setActiveTab] = useState<"aiml" | "fullstack">("aiml");
+  const [activeTab, setActiveTab] = useState<ResumeTab>("agentic");
 
   if (!isOpen) return null;
 
@@ -17,15 +19,61 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
     window.print();
   };
 
-  const currentDownloadPath =
-    activeTab === "aiml"
-      ? PERSONAL_INFO.aimlResumePath
-      : PERSONAL_INFO.fullstackResumePath;
+  const getResumeMeta = () => {
+    switch (activeTab) {
+      case "agentic":
+        return {
+          downloadPath: PERSONAL_INFO.agenticResumePath,
+          filename: "Abhishek_Gupta_Agentic_GenAI_Resume.pdf",
+          title: "Agentic AI & GenAI Systems Engineer",
+          summary:
+            "Final-year B.Tech CSE student building agentic AI systems with LangGraph and LangChain: multi-agent pipelines, RAG, and LLM tool-calling, shipped as full-stack apps with FastAPI and React. 4+ internships (SAA Technologies, PM Accelerator, Stellar, AWS Gen-AI), IEEE-published researcher.",
+          skills: [
+            { label: "Agentic AI & Automation", val: "LangGraph Multi-Agent Orchestration, LangChain, Groq API, Tavily API, LLM Tool-Calling, Prompt Chaining, RAG" },
+            { label: "Languages", val: "C++, Python, JavaScript, SQL, HTML/CSS" },
+            { label: "AI/ML & Data", val: "TensorFlow, PyTorch, Scikit-learn, OpenCV, NumPy, Streamlit" },
+            { label: "Web & Cloud", val: "React, Node.js, Express.js, TypeScript, Supabase, Flask, Django, FastAPI, AWS, Docker, Git, MongoDB, PostgreSQL, MySQL" },
+            { label: "Blockchain & Web3", val: "Stellar, Soroban SDK, Smart Contracts, Blockchain Architecture" }
+          ],
+          filterProjects: (p: (typeof PROJECTS)[0]) => p.id === "autonomous-research-agent" || p.id === "triage-iq" || p.id === "smart-medtech-gloves"
+        };
+      case "fullstack":
+        return {
+          downloadPath: PERSONAL_INFO.fullstackResumePath,
+          filename: "Abhishek_Gupta_FullStack_Resume.pdf",
+          title: "Full-Stack Software Engineer & Cloud Systems",
+          summary:
+            "Final-year B.Tech CSE student (CGPA 9.19) and full stack developer building web apps with React, TypeScript, FastAPI, Node.js, and PostgreSQL. Currently interning at SAA Technologies; previously shipped features backed by 550+ tests at PM Accelerator. Experienced with REST APIs, Docker, AWS, and LLM features (RAG, tool-calling). First-author IEEE publication.",
+          skills: [
+            { label: "Languages", val: "JavaScript, TypeScript, Python, SQL, C++, HTML/CSS" },
+            { label: "Frontend", val: "React, Next.js, Tailwind CSS, Bootstrap, Responsive Design, Vitest, Jest/React Testing Library" },
+            { label: "Backend", val: "Node.js, Express, FastAPI, Django, Flask, REST APIs, JWT Authentication, Prisma" },
+            { label: "Databases & Cloud", val: "PostgreSQL, Supabase, MongoDB, MySQL, AWS (EC2, S3), Docker, Git, CI/CD, GitHub Actions, Vercel, Render" },
+            { label: "Applied AI & Methodologies", val: "LangChain, LangGraph, RAG, LLM Tool-Calling, Scikit-learn, Agile, OOP, Microservices" }
+          ],
+          filterProjects: (p: (typeof PROJECTS)[0]) => p.id === "smart-panchayat" || p.id === "dhaka-tesla-pool" || p.id === "nuzio-ai"
+        };
+      case "aiml":
+      default:
+        return {
+          downloadPath: PERSONAL_INFO.aimlResumePath,
+          filename: "Abhishek_Gupta_AIML_Resume.pdf",
+          title: "AI / ML Engineer & Data Science Specialist",
+          summary:
+            "Final-year B.Tech CSE student with hands-on ML and GenAI experience: classification, NLP, model explainability, and deploying models as REST APIs, plus LLM agents built with LangGraph. 3 internships (SAA Technologies, PM Accelerator, Stellar), IEEE-published researcher.",
+          skills: [
+            { label: "AI/ML & Data", val: "Scikit-learn, XGBoost, TensorFlow, PyTorch, OpenCV, NumPy, Pandas, NLP (TF-IDF), SHAP, SMOTE, Feature Engineering, Model Evaluation, Streamlit" },
+            { label: "GenAI & LLM", val: "LangGraph Multi-Agent Orchestration, LangChain, RAG, LLM Tool-Calling, Prompt Chaining, Groq API, Tavily API" },
+            { label: "Languages", val: "Python, C++, SQL, JavaScript, TypeScript, HTML/CSS" },
+            { label: "Web & Cloud", val: "FastAPI, Flask, React, Node.js, Supabase, PostgreSQL, MongoDB, REST APIs, AWS, Docker, Git" },
+            { label: "Blockchain & Methodologies", val: "Stellar, Soroban SDK, Smart Contracts, Agile, CI/CD, Microservices, OOP, TDD" }
+          ],
+          filterProjects: (p: (typeof PROJECTS)[0]) => p.id === "autonomous-research-agent" || p.id === "ai-resume-analyzer" || p.id === "loan-default-prediction"
+        };
+    }
+  };
 
-  const currentFilename =
-    activeTab === "aiml"
-      ? "Abhishek_Gupta_AIML_Resume.pdf"
-      : "Abhishek_Gupta_FullStack_Resume.pdf";
+  const meta = getResumeMeta();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-neutral-950/75 backdrop-blur-md animate-fade-in">
@@ -39,15 +87,15 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                 Curriculum Vitae Preview
               </h2>
               <p className="text-xs text-neutral-500 font-mono">
-                Select specialized resume profile below
+                Select from 3 specialized profiles below
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             <a
-              href={currentDownloadPath}
-              download={currentFilename}
+              href={meta.downloadPath}
+              download={meta.filename}
               className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-2 shadow-md transition"
             >
               <Download className="w-4 h-4" /> Download Selected PDF
@@ -70,30 +118,42 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
           </div>
         </div>
 
-        {/* Dual Resume Selector Tabs */}
-        <div className="flex items-center gap-3 p-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800/60 border border-neutral-200 dark:border-neutral-700/60">
+        {/* 3 Specialized Resume Tabs */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 p-1.5 rounded-xl bg-neutral-100 dark:bg-neutral-800/60 border border-neutral-200 dark:border-neutral-700/60">
           <button
-            onClick={() => setActiveTab("aiml")}
-            className={`flex-1 py-2.5 px-4 rounded-lg font-bold text-xs flex items-center justify-center gap-2 transition-all ${
-              activeTab === "aiml"
+            onClick={() => setActiveTab("agentic")}
+            className={`py-2.5 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-2 transition-all ${
+              activeTab === "agentic"
                 ? "bg-white dark:bg-neutral-900 text-blue-600 dark:text-cyan-400 shadow-md"
                 : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
             }`}
           >
-            <Brain className="w-4 h-4 text-cyan-500" />
-            <span>AI / ML & Agentic AI Resume</span>
+            <Bot className="w-4 h-4 text-cyan-500" />
+            <span>Agentic & GenAI Resume</span>
           </button>
 
           <button
             onClick={() => setActiveTab("fullstack")}
-            className={`flex-1 py-2.5 px-4 rounded-lg font-bold text-xs flex items-center justify-center gap-2 transition-all ${
+            className={`py-2.5 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-2 transition-all ${
               activeTab === "fullstack"
                 ? "bg-white dark:bg-neutral-900 text-blue-600 dark:text-cyan-400 shadow-md"
                 : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
             }`}
           >
             <Code2 className="w-4 h-4 text-indigo-500" />
-            <span>Full-Stack Web Engineering Resume</span>
+            <span>Full-Stack Engineer Resume</span>
+          </button>
+
+          <button
+            onClick={() => setActiveTab("aiml")}
+            className={`py-2.5 px-3 rounded-lg font-bold text-xs flex items-center justify-center gap-2 transition-all ${
+              activeTab === "aiml"
+                ? "bg-white dark:bg-neutral-900 text-blue-600 dark:text-cyan-400 shadow-md"
+                : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
+            }`}
+          >
+            <Brain className="w-4 h-4 text-purple-500" />
+            <span>AI / ML & Data Science Resume</span>
           </button>
         </div>
 
@@ -105,9 +165,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
               {PERSONAL_INFO.name}
             </h1>
             <p className="text-sm font-semibold text-blue-600 dark:text-cyan-400 mt-1">
-              {activeTab === "aiml"
-                ? "AI / ML Engineer & Agentic AI Specialist"
-                : "Full-Stack Web Engineer & Cloud Systems Developer"}
+              {meta.title}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-mono text-neutral-600 dark:text-neutral-400 mt-3">
               <span className="flex items-center gap-1">
@@ -127,13 +185,26 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
           {/* Executive Summary */}
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-cyan-400 mb-2 border-b border-neutral-200 dark:border-neutral-800 pb-1">
-              Executive Summary
+              Summary
             </h3>
             <p className="text-xs sm:text-sm leading-relaxed text-neutral-700 dark:text-neutral-300">
-              {activeTab === "aiml"
-                ? "Final-year B.Tech CSE AI Engineer specializing in agentic AI systems, deep machine learning pipelines, and LLM orchestration. Experienced with LangGraph multi-agent systems, RAG, PyTorch, TensorFlow, XGBoost, Groq, and Tavily APIs. First-author IEEE-published researcher and lead organizer of Acehack 4.0 & 5.0."
-                : "Final-year B.Tech CSE Full-Stack Developer with hands-on experience architecting production web applications using React, Redux, Node.js, Express, FastAPI, Flask, and Django, backed by cloud deployment (AWS EC2/S3, Docker, CI/CD). First-author IEEE researcher and Lead Organizer of Acehack 4.0 & 5.0."}
+              {meta.summary}
             </p>
+          </div>
+
+          {/* Technical Skills */}
+          <div>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-cyan-400 mb-2 border-b border-neutral-200 dark:border-neutral-800 pb-1">
+              Technical Skills
+            </h3>
+            <div className="space-y-1.5 text-xs sm:text-sm">
+              {meta.skills.map((s, idx) => (
+                <div key={idx}>
+                  <strong className="text-neutral-900 dark:text-neutral-100">{s.label}: </strong>
+                  <span className="text-neutral-700 dark:text-neutral-300">{s.val}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Education */}
@@ -193,14 +264,10 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
           {/* Key Projects */}
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-cyan-400 mb-3 border-b border-neutral-200 dark:border-neutral-800 pb-1">
-              {activeTab === "aiml" ? "AI / ML & Agentic Projects" : "Full-Stack Web & IoT Projects"}
+              Key Projects
             </h3>
             <div className="space-y-3">
-              {PROJECTS.filter((p) =>
-                activeTab === "aiml"
-                  ? p.category === "agentic-ai" || p.category === "ml-analytics"
-                  : p.category === "full-stack" || p.category === "agentic-ai"
-              ).map((proj) => (
+              {PROJECTS.filter(meta.filterProjects).map((proj) => (
                 <div key={proj.id} className="space-y-1">
                   <h4 className="font-bold text-xs sm:text-sm text-neutral-900 dark:text-neutral-100">
                     {proj.title}{" "}
@@ -216,7 +283,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
             </div>
           </div>
 
-          {/* Honors & Leadership */}
+          {/* Honors & Achievements */}
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-cyan-400 mb-2 border-b border-neutral-200 dark:border-neutral-800 pb-1">
               Honors & Achievements
@@ -237,11 +304,11 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
         {/* Footer Actions */}
         <div className="pt-4 border-t border-neutral-200 dark:border-neutral-800 flex justify-end">
           <a
-            href={currentDownloadPath}
-            download={currentFilename}
+            href={meta.downloadPath}
+            download={meta.filename}
             className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-2 shadow-lg transition"
           >
-            <Download className="w-4 h-4" /> Download PDF Resume ({activeTab === "aiml" ? "AI/ML" : "Full-Stack"})
+            <Download className="w-4 h-4" /> Download {meta.filename}
           </a>
         </div>
       </div>

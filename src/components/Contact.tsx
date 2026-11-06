@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { PERSONAL_INFO } from "../data/portfolioData";
-import { Mail, Phone, Copy, Check, Send, Sparkles, MapPin } from "lucide-react";
+import { Mail, Phone, Copy, Check, Send, Sparkles, MapPin, Loader2, AlertCircle } from "lucide-react";
 import { GithubIcon, LinkedinIcon, LeetCodeIcon, CodeChefIcon, DiscordIcon } from "./SocialIcons";
 
 export default function Contact() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -26,24 +28,53 @@ export default function Contact() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
-    setSubmitted(true);
-
-    // Open email client with prefilled query
+  const handleFallbackMailto = () => {
     const mailtoUrl = `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(
       formData.subject || `Inquiry from ${formData.name}`
     )}&body=${encodeURIComponent(
       `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
     )}`;
+    window.open(mailtoUrl, "_blank");
+  };
 
-    window.location.href = mailtoUrl;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) return;
 
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    }, 4000);
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${PERSONAL_INFO.email}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: formData.subject ? `[Portfolio] ${formData.subject}` : `[Portfolio] Message from ${formData.name}`,
+          message: formData.message,
+          _template: "table"
+        })
+      });
+
+      const data = await response.json();
+      if (response.ok && (data.success === "true" || data.success === true)) {
+        setSubmitted(true);
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        throw new Error(data.message || "Failed to deliver message via form service.");
+      }
+    } catch (err: unknown) {
+      console.warn("Direct form submission failed, offering fallback:", err);
+      setSubmitError(
+        "Could not deliver automatically due to network/filter restriction. Click 'Open in Email Client' to send directly!"
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -227,17 +258,44 @@ export default function Contact() {
             </h3>
 
             {submitted ? (
-              <div className="p-6 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-center space-y-2">
-                <Sparkles className="w-8 h-8 text-emerald-600 dark:text-emerald-400 mx-auto" />
-                <h4 className="text-lg font-bold text-emerald-800 dark:text-emerald-300">
-                  Message Sent Successfully!
+              <div className="p-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-center space-y-3 animate-fade-in">
+                <Sparkles className="w-9 h-9 text-emerald-600 dark:text-emerald-400 mx-auto" />
+                <h4 className="text-xl font-bold text-emerald-800 dark:text-emerald-300">
+                  Message Delivered Directly to Abhishek!
                 </h4>
-                <p className="text-xs text-emerald-700 dark:text-emerald-400">
-                  Thank you for reaching out. I'll get back to you shortly.
+                <p className="text-xs text-emerald-700 dark:text-emerald-400 max-w-md mx-auto leading-relaxed">
+                  Thank you for reaching out. Your message has been sent to{" "}
+                  <strong className="font-semibold underline">{PERSONAL_INFO.email}</strong>.
+                  I will review and get back to you shortly.
                 </p>
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setSubmitted(false)}
+                    className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs shadow-md transition"
+                  >
+                    Send Another Message
+                  </button>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                {submitError && (
+                  <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 flex items-start gap-3 text-xs text-amber-800 dark:text-amber-200">
+                    <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+                    <div className="space-y-2 flex-1">
+                      <p>{submitError}</p>
+                      <button
+                        type="button"
+                        onClick={handleFallbackMailto}
+                        className="px-3 py-1.5 rounded-lg bg-amber-600 text-white font-semibold hover:bg-amber-500 transition"
+                      >
+                        Open in Email Client
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-mono font-semibold uppercase text-neutral-600 dark:text-neutral-400 mb-1">
@@ -297,9 +355,20 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 transition"
+                  disabled={isSubmitting}
+                  className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-70 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 transition cursor-pointer"
                 >
-                  <Send className="w-4 h-4" /> Send Message
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Sending Message Directly...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Send Direct Message</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}

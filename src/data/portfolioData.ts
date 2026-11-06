@@ -14,8 +14,10 @@ export const PERSONAL_INFO = {
   codechef: "https://www.codechef.com/users/abhi_0834",
   discord: "https://discord.com/users/1142083658010853416",
   avatarUrl: "/profile.jpg",
-  aimlResumePath: "/Abhishek_Gupta_AIML_Resume.pdf",
+  resumeUrl: "/Abhishek_Gupta_Resume.pdf",
+  agenticResumePath: "/Abhishek_Gupta_Agentic_GenAI_Resume.pdf",
   fullstackResumePath: "/Abhishek_Gupta_FullStack_Resume.pdf",
+  aimlResumePath: "/Abhishek_Gupta_AIML_Resume.pdf",
   education: {
     degree: "B.Tech in Computer Science & Engineering (AI / ML & Web)",
     institution: "University of Engineering & Management (UEM), Jaipur",
@@ -40,18 +42,31 @@ export const PERSONAL_INFO = {
 
 export const WORK_EXPERIENCES: WorkExperience[] = [
   {
-    id: "pm-accelerator",
-    role: "AI Engineer Intern – Full Stack & Data Science",
-    company: "PM Accelerator",
-    program: "Cohort 10",
-    period: "Aug 2026 – Present",
+    id: "saa-technologies",
+    role: "Full Stack Software Engineer Intern",
+    company: "SAA Technologies",
+    period: "Oct 2026 – Present",
     badge: "Current Role",
     highlights: [
-      "Architected and deployed WeatherWise, a full-stack weather application with real-time API integrations.",
-      "Engineered core AI/ML modules for Spreezy.ai, an AI shopping assistant PWA utilizing LangChain and RAG pipelines.",
-      "Implemented LLM-driven restock suggestions and voice-input shopping list creation, improving user engagement and checkout efficiency."
+      "Building Spreezy, an e-commerce grocery-list PWA, as a full stack engineer with React, TypeScript, FastAPI, and Supabase.",
+      "Developing front-end features, REST APIs, and database migrations including product browsing, search, cart, user accounts, weekly essentials, and restock suggestions.",
+      "Working on the Spreezy.ai application to launch in store for public commercial use, writing clean, tested code with Vitest suites."
     ],
-    skills: ["LangChain", "RAG", "React", "Node.js", "Python", "FastAPI", "PWA"]
+    skills: ["React", "TypeScript", "FastAPI", "Supabase", "PostgreSQL", "REST APIs", "PWA", "Vitest"]
+  },
+  {
+    id: "pm-accelerator",
+    role: "AI Engineer Intern – Full Stack",
+    company: "PM Accelerator",
+    program: "Cohort 10",
+    period: "Aug 2026 – Oct 2026",
+    badge: "Completed",
+    certificateUrl: "https://drive.google.com/file/d/1_ngx8NqSQrs74OqWDpLfHHRh9VLRwkMe/view",
+    highlights: [
+      "Built the Spreezy.ai React/TypeScript front end (search, cuisine filtering, item editing) and AI recipe-chat workflows that turn natural-language goals into shopping lists with purchase-history restock suggestions.",
+      "Contributed to 20+ FastAPI endpoints and 19 Supabase/PostgreSQL migrations, backed by 550+ tests at a 98% pass rate."
+    ],
+    skills: ["React", "TypeScript", "FastAPI", "Supabase", "PostgreSQL", "LangChain", "RAG", "Vitest"]
   },
   {
     id: "stellar-blockchain",
@@ -114,32 +129,32 @@ export const PROJECTS: Project[] = [
   },
   {
     id: "triage-iq",
-    title: "TriageIQ & RAG Knowledge Engine",
-    subtitle: "Contextual RAG Retrieval Pipeline & Patient Triage System",
+    title: "TriageIQ – AI SOC Alert Triage Copilot",
+    subtitle: "5-Node Multi-Agent Pipeline & MITRE ATT&CK Incident Reporting",
     category: "agentic-ai",
     description:
-      "Engineered an advanced RAG (Retrieval-Augmented Generation) pipeline providing intelligent context retrieval, automated document query synthesis, and automated triage scoring.",
-    metrics: "Sub-100ms vector search retrieval over unstructured medical knowledge stores",
+      "Built a 5-node LangGraph multi-agent pipeline (Ingestion → Enrichment → Correlation → Triage → Reporting) using VirusTotal and AbuseIPDB to link multi-stage attacks and generate MITRE ATT&CK incident reports.",
+    metrics: "Auto-dismissed 66% false positives | Cut batch triage from 25 min to 3.8 s",
     architectureDetails:
-      "Combines vector embeddings with Groq LLM inference for precise semantic document retrieval. Deployed with Streamlit frontend and REST microservice backend.",
-    techStack: ["RAG", "LangChain", "Python", "Streamlit", "Vector DB", "Groq API"],
+      "Combines vector embeddings, VirusTotal, and AbuseIPDB with Groq LLM inference for precise threat intelligence correlation. Deployed with Streamlit frontend and FastAPI REST backend.",
+    techStack: ["LangGraph", "LangChain", "VirusTotal", "AbuseIPDB", "Python", "Streamlit", "Groq API"],
     githubUrl: "https://github.com/Abhi0833-eng",
     liveDemoUrl: "https://triageiq-leypvsxcvivea98tt22hy7.streamlit.app/",
     featured: true
   },
   {
-    id: "smart-medtech-gloves",
-    title: "Smart MedTech IoT Health Gloves",
-    subtitle: "Hardware ESP32 Vital Sensing & Emergency Alert System (IIIT Delhi Winner)",
+    id: "dhaka-tesla-pool",
+    title: "Dhaka Tesla Pool",
+    subtitle: "EV Ride-Pooling App with Atomic Concurrency & State Machine",
     category: "full-stack",
     description:
-      "Engineered an IoT MedTech health glove using ESP32 microcontrollers, touch sensors, and biomedical sensors (heart rate, pulse rate, blood pressure, sugar monitoring). Sends real-time telemetry and automated emergency SOS SMS alerts to family members upon detecting vital anomalies.",
-    metrics: "1st Place Winner @ IIIT Delhi Esya'23 (NexTech'23) | Low-latency emergency SOS trigger",
+      "Built a 3-seat EV ride-pooling app with JWT authentication, a validated ride-state machine, and atomic seat-booking transactions that prevent race conditions and overbooking.",
+    metrics: "Zero overbooking with atomic SQL transactions | Dockerized & deployed on Vercel",
     architectureDetails:
-      "ESP32 microcontroller interfacing with PPG pulse sensors, touch capacitive sensors, and GSM/MQTT telemetry modules. Processes real-time bio-signals and triggers instant REST API calls to notify emergency contacts.",
-    techStack: ["ESP32", "IoT", "Sensors", "MQTT", "Embedded C++", "Python", "REST API"],
+      "Full-stack Next.js and Express architecture utilizing TypeScript, Prisma ORM, and PostgreSQL. Containerized using Docker for production readiness.",
+    techStack: ["Next.js", "Express", "TypeScript", "Prisma", "PostgreSQL", "Docker", "Vercel"],
     githubUrl: "https://github.com/Abhi0833-eng",
-    liveDemoUrl: "https://drive.google.com/file/d/1fTp2wzx0exGoCJawEtZZVnTW29YYP3kH/view?usp=sharing",
+    liveDemoUrl: "https://github.com/Abhi0833-eng",
     featured: true
   },
   {
@@ -148,14 +163,44 @@ export const PROJECTS: Project[] = [
     subtitle: "AWS-Cloud & IoT MQTT Civic Infrastructure Platform",
     category: "full-stack",
     description:
-      "Architected a robust Django-React civic management platform on AWS with IoT MQTT telemetry pipelines, digitizing 10+ rural administrative services.",
+      "Architected a robust Django-React civic management platform on AWS with IoT MQTT telemetry pipelines, digitizing 10+ rural administrative services with REST APIs and MongoDB models.",
     metrics: "99.5% uptime | 30% Infrastructure Cost Reduction via Docker & Auto-scaling",
     architectureDetails:
-      "Real-time sensor data streaming via MQTT brokers to a Django backend. React dashboard displays real-time telemetry, service requests, and citizen analytics. Deployed live on Vercel.",
-    techStack: ["Django", "React", "AWS EC2/S3", "MQTT", "Docker", "Vercel"],
+      "Real-time sensor data streaming via MQTT brokers to a Django backend. React dashboard displays real-time telemetry, service requests, and citizen analytics. Containerized with Docker and deployed live on AWS EC2/S3, Render, and Vercel.",
+    techStack: ["Django", "React", "MongoDB", "AWS EC2/S3", "MQTT", "Docker", "Vercel", "Render"],
     githubUrl: "https://github.com/Abhi0833-eng",
     liveDemoUrl: "https://smart-panchayat-six.vercel.app/",
     featured: true
+  },
+  {
+    id: "nuzio-ai",
+    title: "Nuzio AI Audio-News Platform",
+    subtitle: "Personalized Audio-News with In-Browser TTS & Live Transcript",
+    category: "full-stack",
+    description:
+      "Built a personalized audio-news platform with a REST API for JWT auth, topic-based feeds, likes, bookmarks, and an Ask-AI endpoint, plus in-browser text-to-speech with a live transcript.",
+    metrics: "Real-time TTS speech synthesis with synchronised live text highlight",
+    architectureDetails:
+      "Engineered with React frontend, Tailwind CSS, Node.js and Express backend, JWT secure authorization, and client-side speech synthesis engines.",
+    techStack: ["React", "Tailwind CSS", "Node.js", "Express", "JWT", "Text-to-Speech"],
+    githubUrl: "https://github.com/Abhi0833-eng",
+    liveDemoUrl: "https://github.com/Abhi0833-eng",
+    featured: true
+  },
+  {
+    id: "smart-medtech-gloves",
+    title: "Smart MedTech IoT Health Gloves",
+    subtitle: "Hardware ESP32 Vital Sensing & Emergency Alert System (IIIT Delhi Winner)",
+    category: "full-stack",
+    description:
+      "Engineered an IoT MedTech health glove using ESP32 microcontrollers, touch sensors, and biomedical sensors (heart rate, pulse rate, blood pressure, sugar monitoring). Sends real-time telemetry and automated emergency SOS alerts upon detecting vital anomalies.",
+    metrics: "1st Place Winner @ IIIT Delhi Esya'23 (NexTech'23) | Low-latency emergency SOS trigger",
+    architectureDetails:
+      "ESP32 microcontroller interfacing with PPG pulse sensors, touch capacitive sensors, and GSM/MQTT telemetry modules. Processes real-time bio-signals and triggers instant emergency alerts.",
+    techStack: ["ESP32", "IoT", "Sensors", "MQTT", "Embedded C++", "Python", "REST API"],
+    githubUrl: "https://github.com/Abhi0833-eng",
+    liveDemoUrl: "https://drive.google.com/file/d/1fTp2wzx0exGoCJawEtZZVnTW29YYP3kH/view?usp=sharing",
+    featured: false
   },
   {
     id: "ai-resume-analyzer",
@@ -163,7 +208,7 @@ export const PROJECTS: Project[] = [
     subtitle: "NLP-Powered Resume Screening Engine with CI/CD",
     category: "ml-analytics",
     description:
-      "Built an NLP-driven Applicant Tracking System (ATS) engine using custom TF-IDF vectorization to automatically score resumes against job descriptions.",
+      "Built an NLP-driven Applicant Tracking System (ATS) engine using custom TF-IDF vectorization to automatically score resumes against job descriptions and return ATS match analytics.",
     metrics: "40% reduction in screening time | Sub-100ms latency on 500+ daily requests",
     architectureDetails:
       "High-throughput Flask REST API optimized with NumPy vectorized matrix operations. Deployed live on Vercel with GitHub Actions CI/CD pipelines.",
@@ -209,10 +254,10 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
     skills: [
       { name: "React / Redux / TypeScript", level: "Expert", highlight: true },
       { name: "Node.js & Express", level: "Advanced" },
-      { name: "Django & Flask", level: "Expert" },
-      { name: "Tailwind CSS & Modern UI", level: "Expert" },
-      { name: "HTML5 / CSS3 / Responsive Design", level: "Expert" },
-      { name: "REST APIs & GraphQL Fundamentals", level: "Advanced" }
+      { name: "FastAPI, Django & Flask", level: "Expert", highlight: true },
+      { name: "Supabase & PostgreSQL", level: "Expert", highlight: true },
+      { name: "Tailwind CSS & Responsive UI", level: "Expert" },
+      { name: "REST APIs & Microservices", level: "Advanced" }
     ]
   },
   {
@@ -234,9 +279,9 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       { name: "AWS (EC2, S3, Lambda, SageMaker)", level: "Advanced", highlight: true },
       { name: "Docker & Containerization", level: "Advanced", highlight: true },
       { name: "GitHub Actions CI/CD", level: "Advanced" },
-      { name: "PostgreSQL, MySQL & MongoDB", level: "Advanced" },
-      { name: "Redis In-Memory Caching", level: "Proficient" },
-      { name: "Kubernetes Fundamentals", level: "Proficient" }
+      { name: "PostgreSQL, Supabase & MongoDB", level: "Advanced" },
+      { name: "Vitest & Test-Driven Development", level: "Advanced" },
+      { name: "Vercel & Render Deployment", level: "Proficient" }
     ]
   },
   {
@@ -265,7 +310,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   },
   {
     id: "iit-bhu-wheelchair",
-    title: "1st Place Winner – Iomatic (Tehnex'25)",
+    title: "1st Place Winner – Iomatic (Technex'25)",
     organization: "IIT BHU",
     type: "Hardware & IoT",
     badge: "1st Place Winner",
@@ -308,8 +353,32 @@ export const ACHIEVEMENTS: Achievement[] = [
 
 export const CERTIFICATIONS: Certification[] = [
   {
+    name: "PM Accelerator – Certified AI Engineer",
+    issuer: "PM Accelerator (Cohort 10)",
+    status: "Verified",
+    certificateUrl: "https://drive.google.com/file/d/1_ngx8NqSQrs74OqWDpLfHHRh9VLRwkMe/view"
+  },
+  {
+    name: "AWS Cloud Training & Foundations",
+    issuer: "LinkedIn Learning",
+    status: "Verified",
+    certificateUrl: "https://drive.google.com/file/d/1-BY4lCcl7Pihpsyzkgcg18kK6YSWCJYb/view?usp=sharing"
+  },
+  {
+    name: "SQL Essential Training & Advanced Querying",
+    issuer: "LinkedIn Learning",
+    status: "Verified",
+    certificateUrl: "https://drive.google.com/file/d/1fVCsYfAJtwWgbrVWn-2hFM25FJtToHNr/view?usp=sharing"
+  },
+  {
+    name: "Professional Technical Achievement Badge",
+    issuer: "Verified Credential",
+    status: "Verified",
+    certificateUrl: "https://drive.google.com/file/d/1WXwmpufTTuLrpoznpS9cW_TA-En9X8as/view?usp=sharing"
+  },
+  {
     name: "Stellar Blockchain Developer Internship",
-    issuer: "AICTE",
+    issuer: "Rise In / Stellar Development Foundation",
     status: "Verified",
     certificateUrl: "https://drive.google.com/file/d/1_XCaQyFpSzw0y1VYpUM5uJdhnyDTQsKD/view"
   },
