@@ -154,7 +154,7 @@ export const PROJECTS: Project[] = [
       "Full-stack Next.js and Express architecture utilizing TypeScript, Prisma ORM, and PostgreSQL. Containerized using Docker for production readiness.",
     techStack: ["Next.js", "Express", "TypeScript", "Prisma", "PostgreSQL", "Docker", "Vercel"],
     githubUrl: "https://github.com/Abhi0833-eng",
-    liveDemoUrl: "https://github.com/Abhi0833-eng",
+    liveDemoUrl: "https://dhaka-tesla-pool-yvnn.vercel.app",
     featured: true
   },
   {
@@ -184,7 +184,7 @@ export const PROJECTS: Project[] = [
       "Engineered with React frontend, Tailwind CSS, Node.js and Express backend, JWT secure authorization, and client-side speech synthesis engines.",
     techStack: ["React", "Tailwind CSS", "Node.js", "Express", "JWT", "Text-to-Speech"],
     githubUrl: "https://github.com/Abhi0833-eng",
-    liveDemoUrl: "https://github.com/Abhi0833-eng",
+    liveDemoUrl: "https://nuzio-ai-nine.vercel.app",
     featured: true
   },
   {
@@ -199,7 +199,7 @@ export const PROJECTS: Project[] = [
       "ESP32 microcontroller interfacing with PPG pulse sensors, touch capacitive sensors, and GSM/MQTT telemetry modules. Processes real-time bio-signals and triggers instant emergency alerts.",
     techStack: ["ESP32", "IoT", "Sensors", "MQTT", "Embedded C++", "Python", "REST API"],
     githubUrl: "https://github.com/Abhi0833-eng",
-    liveDemoUrl: "https://drive.google.com/file/d/1fTp2wzx0exGoCJawEtZZVnTW29YYP3kH/view?usp=sharing",
+    liveDemoUrl: "https://drive.google.com/file/d/15Jai0Fh2TVjJ_sPeLmjcrEhYu6-8I3HT/view?usp=sharing",
     featured: false
   },
   {
@@ -353,12 +353,6 @@ export const ACHIEVEMENTS: Achievement[] = [
 
 export const CERTIFICATIONS: Certification[] = [
   {
-    name: "PM Accelerator – Certified AI Engineer",
-    issuer: "PM Accelerator (Cohort 10)",
-    status: "Verified",
-    certificateUrl: "https://drive.google.com/file/d/1_ngx8NqSQrs74OqWDpLfHHRh9VLRwkMe/view"
-  },
-  {
     name: "AWS Cloud Training & Foundations",
     issuer: "LinkedIn Learning",
     status: "Verified",
@@ -377,8 +371,8 @@ export const CERTIFICATIONS: Certification[] = [
     certificateUrl: "https://drive.google.com/file/d/1WXwmpufTTuLrpoznpS9cW_TA-En9X8as/view?usp=sharing"
   },
   {
-    name: "Stellar Blockchain Developer Internship",
-    issuer: "Rise In / Stellar Development Foundation",
+    name: "Blockchain Developer Virtual Internship",
+    issuer: "EduSkills Academy / AICTE",
     status: "Verified",
     certificateUrl: "https://drive.google.com/file/d/1_XCaQyFpSzw0y1VYpUM5uJdhnyDTQsKD/view"
   },

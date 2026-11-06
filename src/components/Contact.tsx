@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { PERSONAL_INFO } from "../data/portfolioData";
-import { Mail, Phone, Copy, Check, Send, Sparkles, MapPin, Loader2, AlertCircle } from "lucide-react";
+import { Mail, Phone, Copy, Check, Send, Sparkles, MapPin, ExternalLink } from "lucide-react";
 import { GithubIcon, LinkedinIcon, LeetCodeIcon, CodeChefIcon, DiscordIcon } from "./SocialIcons";
 
 export default function Contact() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -16,6 +14,16 @@ export default function Contact() {
     subject: "",
     message: ""
   });
+
+  const [lastMessage, setLastMessage] = useState<{
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    gmailUrl: string;
+    mailtoUrl: string;
+    whatsappUrl: string;
+  } | null>(null);
 
   const copyToClipboard = (text: string, type: "email" | "phone") => {
     navigator.clipboard.writeText(text);
@@ -28,53 +36,47 @@ export default function Contact() {
     }
   };
 
-  const handleFallbackMailto = () => {
-    const mailtoUrl = `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(
-      formData.subject || `Inquiry from ${formData.name}`
-    )}&body=${encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-    )}`;
-    window.open(mailtoUrl, "_blank");
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
-    setIsSubmitting(true);
-    setSubmitError(null);
+    const subjectText = formData.subject.trim()
+      ? `[Portfolio Inquiry] ${formData.subject.trim()}`
+      : `[Portfolio Inquiry] Message from ${formData.name.trim()}`;
 
-    try {
-      const response = await fetch(`https://formsubmit.co/ajax/${PERSONAL_INFO.email}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          _subject: formData.subject ? `[Portfolio] ${formData.subject}` : `[Portfolio] Message from ${formData.name}`,
-          message: formData.message,
-          _template: "table"
-        })
-      });
+    const bodyText = `Hi Abhishek,\n\nName: ${formData.name.trim()}\nEmail: ${formData.email.trim()}\n\nMessage:\n${formData.message.trim()}\n\n---\nSent via Abhishek Gupta Portfolio Contact Form`;
 
-      const data = await response.json();
-      if (response.ok && (data.success === "true" || data.success === true)) {
-        setSubmitted(true);
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      } else {
-        throw new Error(data.message || "Failed to deliver message via form service.");
-      }
-    } catch (err: unknown) {
-      console.warn("Direct form submission failed, offering fallback:", err);
-      setSubmitError(
-        "Could not deliver automatically due to network/filter restriction. Click 'Open in Email Client' to send directly!"
-      );
-    } finally {
-      setIsSubmitting(false);
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+      PERSONAL_INFO.email
+    )}&su=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
+
+    const mailtoUrl = `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(
+      subjectText
+    )}&body=${encodeURIComponent(bodyText)}`;
+
+    const whatsappUrl = `https://wa.me/917643020833?text=${encodeURIComponent(
+      `Hi Abhishek, I sent a message from your portfolio:\nName: ${formData.name}\nEmail: ${formData.email}\nMessage: ${formData.message}`
+    )}`;
+
+    // Automatically trigger Gmail compose in a new tab
+    const win = window.open(gmailUrl, "_blank");
+    if (!win || win.closed || typeof win.closed === "undefined") {
+      // If popup blocker intervened, fallback to mailto
+      window.location.href = mailtoUrl;
     }
+
+    setLastMessage({
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject,
+      message: formData.message,
+      gmailUrl,
+      mailtoUrl,
+      whatsappUrl
+    });
+
+    setSubmitted(true);
+    setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
   return (
@@ -257,45 +259,60 @@ export default function Contact() {
               Send a Direct Message
             </h3>
 
-            {submitted ? (
-              <div className="p-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-center space-y-3 animate-fade-in">
+            {submitted && lastMessage ? (
+              <div className="p-8 rounded-2xl bg-emerald-50/90 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-center space-y-4 animate-fade-in">
                 <Sparkles className="w-9 h-9 text-emerald-600 dark:text-emerald-400 mx-auto" />
-                <h4 className="text-xl font-bold text-emerald-800 dark:text-emerald-300">
-                  Message Delivered Directly to Abhishek!
-                </h4>
-                <p className="text-xs text-emerald-700 dark:text-emerald-400 max-w-md mx-auto leading-relaxed">
-                  Thank you for reaching out. Your message has been sent to{" "}
-                  <strong className="font-semibold underline">{PERSONAL_INFO.email}</strong>.
-                  I will review and get back to you shortly.
-                </p>
+                <div>
+                  <h4 className="text-xl font-bold text-emerald-900 dark:text-emerald-200">
+                    Message Prepared for Abhishek!
+                  </h4>
+                  <p className="text-xs sm:text-sm text-emerald-700 dark:text-emerald-300 max-w-md mx-auto mt-1 leading-relaxed">
+                    Opening your mail client directly to deliver to{" "}
+                    <strong className="font-semibold underline">{PERSONAL_INFO.email}</strong>.
+                    If your tab was blocked, choose your preferred sending option below:
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                  <a
+                    href={lastMessage.gmailUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs flex items-center gap-2 shadow-md transition"
+                  >
+                    <Mail className="w-4 h-4" /> Open in Gmail Web
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+
+                  <a
+                    href={lastMessage.mailtoUrl}
+                    className="px-4 py-2.5 rounded-xl bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 font-semibold text-xs flex items-center gap-2 transition"
+                  >
+                    <Mail className="w-4 h-4 text-blue-500" /> Default Email App
+                  </a>
+
+                  <a
+                    href={lastMessage.whatsappUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-2 transition"
+                  >
+                    Send via WhatsApp
+                  </a>
+                </div>
+
                 <div className="pt-2">
                   <button
                     type="button"
                     onClick={() => setSubmitted(false)}
-                    className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs shadow-md transition"
+                    className="text-xs text-neutral-500 hover:text-neutral-800 dark:hover:text-neutral-200 underline font-medium cursor-pointer"
                   >
-                    Send Another Message
+                    Write Another Message
                   </button>
                 </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                {submitError && (
-                  <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800 flex items-start gap-3 text-xs text-amber-800 dark:text-amber-200">
-                    <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                    <div className="space-y-2 flex-1">
-                      <p>{submitError}</p>
-                      <button
-                        type="button"
-                        onClick={handleFallbackMailto}
-                        className="px-3 py-1.5 rounded-lg bg-amber-600 text-white font-semibold hover:bg-amber-500 transition"
-                      >
-                        Open in Email Client
-                      </button>
-                    </div>
-                  </div>
-                )}
-
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-mono font-semibold uppercase text-neutral-600 dark:text-neutral-400 mb-1">
@@ -355,20 +372,10 @@ export default function Contact() {
 
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-70 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 transition cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25 transition cursor-pointer"
                 >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Sending Message Directly...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-4 h-4" />
-                      <span>Send Direct Message</span>
-                    </>
-                  )}
+                  <Send className="w-4 h-4" />
+                  <span>Send Direct Message to Abhishek</span>
                 </button>
               </form>
             )}
